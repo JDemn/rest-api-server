@@ -1,0 +1,15 @@
+logs
+*.log
+npm-debug.log*
+
+/node_modules
+/.pnp
+.pnp.js
+
+.env
+.env.local
+.env.*.local
+
+# Build output
+/dist
+/build
