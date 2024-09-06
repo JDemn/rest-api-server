@@ -1,6 +1,8 @@
 
 const { response, request } = require("express");
+const bcryptjs = require('bcryptjs');
 const User = require("../models/user");
+const AuthModel = require('../models/auth');
 const { ERROR_MESSAGES, USER_ROLES } = require("../constants/constants");
 
 const createUser = async (req = request, res = response) => {
@@ -20,16 +22,30 @@ const createUser = async (req = request, res = response) => {
                 msg : ERROR_MESSAGES?.NOT_VALID_ROLE
             })
         }
+        const salt = bcryptjs.genSaltSync(12);
+        const hashedPassword = bcryptjs.hashSync(data.password, salt);
+
+        
+
         const newUser = await User.create(data);
+
+        const authentication = {
+            user: newUser._id,
+            password : hashedPassword,
+        }
+        const authenticationInMongo = await AuthModel.create(authentication);
+
+        await authenticationInMongo.save()
         await newUser.save();
 
         return res.status(201).json({
-            msg: 'Usuario creado exitosamente'
+            msg: 'Usuario creado exitosamente',
+            newUser
         })
     } catch (error) {
         console.error('Error al obtener usuarios:', error);
         return res.status(500).json({
-            msg: ERROR_MESSAGES?.SERVER_ERROR
+            msg: ERROR_MESSAGES?.SERVER_ERROR            
         })
     }
 }

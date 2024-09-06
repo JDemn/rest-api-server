@@ -11,8 +11,9 @@ const {
 const { 
     fieldValidation
 } = require('../middlewares/index');
-const { hasAvalidRole } = require('../middlewares/rolesValidation');
+const { hasAvalidRole, toUpperCaseRole } = require('../middlewares/rolesValidation');
 const { USER_ROLES } = require('../constants/constants');
+const { jwtValidation } = require('../middlewares/jwtValidation');
 
 const router = Router();
 
@@ -30,6 +31,7 @@ router.post('/create', [
     check('password','La contraseña debe de ser mayor a 8 carecteres').isLength({min:8}),
     check('password','La contraseña debe incluir como minimo 1 letra mayúscula, una minúscula, y un caracter especial como : % / & @  ').matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[%\/&@])[a-zA-Z0-9%\/&@]{8,}$/),     
     check('role','El rol es obligatorio').not().isEmpty(),
+    toUpperCaseRole,
     fieldValidation
 ],createUser );
 
@@ -40,7 +42,9 @@ router.post('/create', [
  * @description Get all user filtering by limit and from param
  * @access Private
  */
-router.get('/all', getUsers );
+router.get('/all', [
+    jwtValidation
+],getUsers );
 
 /**
  * @method GET
@@ -49,6 +53,7 @@ router.get('/all', getUsers );
  * @access Private
  */
 router.get('/:id', [
+    jwtValidation,
     param('id').isMongoId().withMessage('No es un ID válido'),
     fieldValidation
 ], getUserById );
@@ -60,6 +65,7 @@ router.get('/:id', [
  * @access Private
  */
 router.put('/update/:id', [
+    jwtValidation,
     param('id').isMongoId().withMessage('No es un ID válido'),
     fieldValidation,
 ],updateUser );
@@ -71,6 +77,7 @@ router.put('/update/:id', [
  * @access Private
  */
 router.delete('/delete/:id', [
+    jwtValidation,
     param('id').isMongoId().withMessage('No es un ID válido'),
     fieldValidation
 ] ,deleteUser );

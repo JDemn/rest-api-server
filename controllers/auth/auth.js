@@ -1,7 +1,7 @@
 const { response } = require('express');
 const bcryptjs = require('bcryptjs')
 const User = require('../../models/user')
-const Authentication = require('../../models/auth');
+const Auth = require('../../models/auth');
 const { createJWT } = require('../../helpers/createJWT');
 
 const auth = async (req, res = response) => {
@@ -13,11 +13,11 @@ const auth = async (req, res = response) => {
             return res.status(400).json({ msg: 'Usuario / Password no son correctos' });
         }
 
-        if (!usuario.estado) {
+        if (!usuario?.state) {
             return res.status(400).json({ msg: 'La cuenta que intentas ingresar está inactiva' });
         } 
         
-        const auth = await Authentication.findOne({ user: usuario._id }).lean();
+        const auth = await Auth.findOne({ user: usuario?._id }).lean();
         
         if (!auth) {
             return res.status(400).json({ msg: 'Usuario / Password no son correctos' });
