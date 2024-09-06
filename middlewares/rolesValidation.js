@@ -15,7 +15,7 @@ const { response } = require('express');
  */
 const hasAvalidRole = ( ...roles )=>{
     try{
-        return ( req,res = response,next )=>{
+        return ( req,res = response,next )=>{            
             if( !req.user ){
                 return res.status(500).json({
                     msg : "se quiere verificar el role sin validar primero el token"

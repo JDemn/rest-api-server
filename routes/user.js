@@ -9,7 +9,8 @@ const {
     deleteUser
 } = require('../controllers/index');
 const { 
-    fieldValidation
+    fieldValidation,
+    fieldsEmpy
 } = require('../middlewares/index');
 const { hasAvalidRole, toUpperCaseRole } = require('../middlewares/rolesValidation');
 const { USER_ROLES } = require('../constants/constants');
@@ -43,7 +44,8 @@ router.post('/create', [
  * @access Private
  */
 router.get('/all', [
-    jwtValidation
+    jwtValidation,
+    hasAvalidRole(...Object.values(USER_ROLES))
 ],getUsers );
 
 /**
@@ -55,7 +57,8 @@ router.get('/all', [
 router.get('/:id', [
     jwtValidation,
     param('id').isMongoId().withMessage('No es un ID válido'),
-    fieldValidation
+    fieldValidation,
+    hasAvalidRole(...Object.values(USER_ROLES))
 ], getUserById );
 
 /**
@@ -68,6 +71,8 @@ router.put('/update/:id', [
     jwtValidation,
     param('id').isMongoId().withMessage('No es un ID válido'),
     fieldValidation,
+    fieldsEmpy,
+    hasAvalidRole(...Object.values(USER_ROLES))
 ],updateUser );
 
 /**
@@ -79,7 +84,8 @@ router.put('/update/:id', [
 router.delete('/delete/:id', [
     jwtValidation,
     param('id').isMongoId().withMessage('No es un ID válido'),
-    fieldValidation
+    fieldValidation,    
+    hasAvalidRole(...Object.values(USER_ROLES))
 ] ,deleteUser );
 
 module.exports = router;

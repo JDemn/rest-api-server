@@ -19,6 +19,21 @@ const fieldValidation =( req = request, res = response,next ) =>{
     }
 }
 
+const fieldsEmpy = ( req = request, res = response, next ) => {
+    try{
+        if ( Object.keys( req?.body )?.length === 0 ) {
+            return res.status(400).json({
+                msg: 'No hay data que actualizar'
+            });
+        }
+        next();
+    }catch( err ){
+        console.log("Error", err )
+        return res.status(500).json({msg : ERROR_MESSAGES?.SERVER_ERROR})
+    }
+}
+
 module.exports = {
-    fieldValidation
+    fieldValidation,
+    fieldsEmpy
 }

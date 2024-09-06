@@ -14,8 +14,8 @@ const USER_ROLES = {
 };
 
 const ERROR_MESSAGES = {
-    NOT_FOUND: 'Resource not found',
-    UNAUTHORIZED: 'You are not authorized to access this resource',
+    NOT_FOUND: 'No se encontró el recurso',
+    UNAUTHORIZED: 'No cuenta con los permisos necesarios para acceder a los recursos',
     SERVER_ERROR: 'Error en el sistema, comuniquese con el administrador',
     NOT_VALID_ROLE : 'No se está pasando un rol válido'
 };
