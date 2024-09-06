@@ -11,6 +11,10 @@ const UserSchema = Schema({
         type: String,
         required: true
     },
+    password : {
+        type : String,
+        require : true
+    },
     state: {
         type: Boolean,
         default: true

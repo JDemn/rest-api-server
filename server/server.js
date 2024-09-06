@@ -14,7 +14,8 @@ class Server {
         this.server = http.createServer(this.app);
         
         this.path = {
-            user : API_ROUTES?.USERS
+            user : API_ROUTES?.USERS,
+            auth : API_ROUTES?.AUTH
         }
 
         this.conectarDb();
@@ -43,6 +44,7 @@ class Server {
     }
     routes() {
         this.app.use(this.path.user, require('../routes/user'));
+        this.app.use( this.path.auth, require('../routes/auth'));
     }
     
     listen() {

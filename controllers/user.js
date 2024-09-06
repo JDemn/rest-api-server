@@ -1,7 +1,7 @@
 
 const { response, request } = require("express");
 const User = require("../models/user");
-const { ERROR_MESSAGES } = require("../constants/constants");
+const { ERROR_MESSAGES, USER_ROLES } = require("../constants/constants");
 
 const createUser = async (req = request, res = response) => {
     try {
@@ -9,10 +9,15 @@ const createUser = async (req = request, res = response) => {
         const existUsr = await User.findOne({
             email: data?.email
         })
-    
+        
         if (existUsr) {
             return res.status(400).json({
                 msg: 'El usuario que intenta crear, ya existe'
+            })
+        }
+        if( !Object.values(USER_ROLES).includes(data?.role) ){
+            return res.status(403).json({
+                msg : ERROR_MESSAGES?.NOT_VALID_ROLE
             })
         }
         const newUser = await User.create(data);

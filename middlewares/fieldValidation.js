@@ -1,5 +1,6 @@
 const { response, request } = require('express');
 const { validationResult } = require('express-validator');
+const { ERROR_MESSAGES } = require('../constants/constants');
 /**
  * @description This validate the body or param entries, it return an error if exist. 
  * @param req Express request
@@ -14,7 +15,7 @@ const fieldValidation =( req = request, res = response,next ) =>{
 
     }catch(err){
         console.log(err);
-        return res.status(500).json({msg : 'Error en el servicio, comuniquese con el administrador'})
+        return res.status(500).json({msg : ERROR_MESSAGES?.SERVER_ERROR})
     }
 }
 
