@@ -30,7 +30,7 @@ const { createJWT } = require('../../helpers/createJWT');
  *   "token": "jwtTokenHere"
  * }
  */
-const auth = async (req, res = response) => {
+const auth = async ( req, res = response , next ) => {
     try {
         const { email, password } = req.body;
         const usuario = await User.findOne({ email });
@@ -44,13 +44,11 @@ const auth = async (req, res = response) => {
         } 
         
         const auth = await Auth.findOne({ user: usuario?._id }).lean();
-        
         if (!auth) {
             return res.status(400).json({ msg: 'Usuario / Password no son correctos' });
-        }        
+        } 
 
-        const validarContrasena = bcryptjs.compare(password, auth.password);
-        
+        const validarContrasena = await bcryptjs.compare(password, auth.password);
         if (!validarContrasena) {
             return res.status(400).json({
                 msg: "Credenciales incorrectas"
@@ -62,11 +60,8 @@ const auth = async (req, res = response) => {
             usuario,
             token
         })
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({
-            msg: 'Error en la autenticación, comuniquese con el administrador'
-        })
+    } catch (error) {        
+        next( error )
     }
 }
 

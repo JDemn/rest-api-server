@@ -47,11 +47,11 @@ const createUser = async (req = request, res = response , next) => {
             user: newUser._id,
             password: hashedPassword,
         }
-        const authenticationInMongo = await AuthModel.create(authentication);
-
-        await authenticationInMongo.save()
-        await newUser.save();
-        
+        await Promise.all([
+            AuthModel.create( authentication ),
+            newUser.save()
+        ]);
+                
         return res.status(201).json({
             msg: 'Usuario creado exitosamente',
             newUser
@@ -138,7 +138,7 @@ const getUserById = async ( req = request, res = response, next ) => {
 const updateUser = async ( req = request, res = response , next ) => {
     try {
         const userById = req?.params?.id;
-        const { password, ...data } = req?.body;
+        const { password, _id , ...data } = req?.body;
         const user = await User.findOne({
             _id: userById,
             state: true
@@ -153,14 +153,13 @@ const updateUser = async ( req = request, res = response , next ) => {
             })
         }
 
-        const updatedUser = await User.findByIdAndUpdate(userById, data, {
-            new: true,
-            runValidators: true
-        });
+        Object.assign(user, data);
+
+        await user.save();
 
         return res.status(200).json({
             msg: 'Usuario actualizado exitosamente',
-            user: updatedUser
+            user
         });
 
     } catch (error) {
