@@ -48,10 +48,9 @@ const auth = async (req, res = response) => {
         if (!auth) {
             return res.status(400).json({ msg: 'Usuario / Password no son correctos' });
         }        
-        console.time('validatePassword');
-        const validarContrasena = bcryptjs.compare(password, auth.password);
-        console.timeEnd('validatePassword');
 
+        const validarContrasena = bcryptjs.compare(password, auth.password);
+        
         if (!validarContrasena) {
             return res.status(400).json({
                 msg: "Credenciales incorrectas"
