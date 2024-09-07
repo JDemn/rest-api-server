@@ -4,6 +4,7 @@ const { dbConnection } = require('../database/config')
 
 const http = require('http'); 
 const { API_ROUTES } = require('../constants/constants');
+const { logRequestDetails } = require('../middlewares');
 
 class Server {
 
@@ -40,6 +41,7 @@ class Server {
         }));
 
         this.app.use(express.json());
+        this.app.use( logRequestDetails );
     }
     routes() {
         this.app.use(this.path.user, require('../routes/user'));

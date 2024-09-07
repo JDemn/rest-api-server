@@ -10,7 +10,8 @@ const {
 } = require('../controllers/index');
 const { 
     fieldValidation,
-    fieldsEmpy
+    fieldsEmpy,
+    logRequestDetails
 } = require('../middlewares/index');
 const { hasAvalidRole, toUpperCaseRole } = require('../middlewares/rolesValidation');
 const { USER_ROLES } = require('../constants/constants');
@@ -33,7 +34,8 @@ router.post('/create', [
     check('password','La contraseña debe incluir como minimo 1 letra mayúscula, una minúscula, y un caracter especial como : % / & @  ').matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[%\/&@])[a-zA-Z0-9%\/&@]{8,}$/),     
     check('role','El rol es obligatorio').not().isEmpty(),
     toUpperCaseRole,
-    fieldValidation
+    fieldValidation,
+    logRequestDetails
 ],createUser );
 
 

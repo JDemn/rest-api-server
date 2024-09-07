@@ -3,7 +3,11 @@ const { response, request } = require("express");
 const bcryptjs = require('bcryptjs');
 const User = require("../models/user");
 const AuthModel = require('../models/auth');
-const { ERROR_MESSAGES, USER_ROLES } = require("../constants/constants");
+const { 
+    ERROR_MESSAGES,
+    USER_ROLES 
+} = require("../constants/constants");
+const { logger } = require("../helpers");
 
 /**
  * @method POST
@@ -48,13 +52,13 @@ const createUser = async (req = request, res = response) => {
 
         await authenticationInMongo.save()
         await newUser.save();
-
+        
         return res.status(201).json({
             msg: 'Usuario creado exitosamente',
             newUser
         })
     } catch (error) {
-        console.error('Error al obtener usuarios:', error);
+        //logger.error(`[${req?.method}] ${req?.originalUrl} - Error en el controlador: ${error?.message}`);
         return res.status(500).json({
             msg: ERROR_MESSAGES?.SERVER_ERROR
         })
