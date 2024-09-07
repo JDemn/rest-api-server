@@ -1,6 +1,6 @@
 # ACERCA DEL PROYECTO
 
-Este proyecto es un servidor REST desarrollado con Node.js (versión `x.y.z`) y npm (`x.y.z`). Utiliza el framework Express para manejar las rutas y las solicitudes. La base de datos utilizada para pruebas es MongoDB. El servidor por defecto escucha en el puerto `8083`.
+Este proyecto es un servidor REST desarrollado con Node.js (versión `20.13.1`) y npm (`10.5.2`). Utiliza el framework Express para manejar las rutas y las solicitudes. La base de datos utilizada para pruebas es MongoDB. El servidor por defecto escucha en el puerto `8083`.
 
 ## TECNOLOGÍAS USADAS
 
@@ -95,6 +95,17 @@ Para interactuar con la aplicación, sigue estos pasos:
         "role" : ""
     }
 ```
+### `/api/user/all`
+**Descripción**: Obtiene todos los usuarios.
+**Método**: `GET`
+
+**params** Parametros de búsqueda
+`desde` : Por defecto busca desde la colección `0` .
+`limite`: Trae hasta la colección `20` por defecto.
+
+**Respuesta:**
+-200 OK: Lista de usuarios.
+-500 Internal Server Error: Error al obtener la lista de usuarios.
 
 ### `/api/auth/login`
 
@@ -133,7 +144,7 @@ Respuesta:
 
 ```json
     {
-    ... Data to update
+    ... Información del usuario a actualizar
 }
 ```
 
