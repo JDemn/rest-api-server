@@ -1,14 +1,14 @@
-# ACERCA DEL PROYECTO
+# Acerca del proyecto
 
 Este proyecto es un servidor REST desarrollado con Node.js (versión `20.13.1`) y npm (`10.5.2`). Utiliza el framework Express para manejar las rutas y las solicitudes. La base de datos utilizada para pruebas es MongoDB. El servidor por defecto escucha en el puerto `8083`.
 
-## TECNOLOGÍAS USADAS
+## Tecnologías empleadas
 
 - **Node.js**: Lenguale principal.
 - **MongoDB**: Base de datos NoSQL utilizada para el almacenamiento.
 - **Docker**: Para contenedorización (versión 25.0.3).
 
-## CÓMO LEVANTAR EL PROYECTO
+## Cómo levantar el proyecto
 
 ### Usando npm
 
@@ -68,7 +68,7 @@ Para levantar el proyecto usando Docker, asegúrate de tener Docker instalado y 
     docker run -p 8083:8083 -e MONGODB_CNN=CadenaDeConexiónDeMongo -e SECRETORPRIVATEKEY=PrivateKeYVariable nombreDeLaImagen
     ```
 
-## CÓMO INTERACTUAR CON LA APLICACIÓN
+## Cómo interactuar con el servidor
 
 Para interactuar con la aplicación, sigue estos pasos:
 
