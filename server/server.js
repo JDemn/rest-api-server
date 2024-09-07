@@ -15,7 +15,8 @@ class Server {
         
         this.path = {
             user : API_ROUTES?.USERS,
-            auth : API_ROUTES?.AUTH
+            auth : API_ROUTES?.AUTH,
+            gibli : API_ROUTES?.GIBLI_RESOURCES
         }
 
         this.conectarDb();
@@ -43,6 +44,7 @@ class Server {
     routes() {
         this.app.use(this.path.user, require('../routes/user'));
         this.app.use( this.path.auth, require('../routes/auth'));
+        this.app.use( this.path.gibli, require('../routes/gibli'));
     }
     
     listen() {
