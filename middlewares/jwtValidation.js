@@ -5,7 +5,7 @@ const User = require('../models/user');
 
 
 const jwtValidation = async( req = request ,res = response , next ) => {
-    const token = req.header('x-token');
+    const token = req.header('token');
     if(!token) {
         return res.status(401).json({
             msg : 'No se ha proporcionado token de acceso en la petición'

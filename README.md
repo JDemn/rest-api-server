@@ -75,6 +75,7 @@ Para interactuar con la aplicación, sigue estos pasos:
 1. Asegúrate de tener Postman instalado.
 2. Abre Postman y configura un ambiente de pruebas.
 3. Llama a los siguientes endpoints con la URL base: `http://localhost:8083`
+4. Necesitas proveer el key `token` sobre headers y el valor debe ser el JWT que generaste sobre la autenticación
 
 ## Endpoints de la Aplicación
 
