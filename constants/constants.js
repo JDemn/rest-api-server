@@ -1,4 +1,4 @@
-const GHIBLI_URL = "https://ghibliapi.vercel.app"
+const GHIBLI_URL = process.env.GHIBLI_URL
 const API_ROUTES = {
     USERS: '/api/user',
     AUTH : '/api/auth',
