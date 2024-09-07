@@ -4,7 +4,7 @@ const { dbConnection } = require('../database/config')
 
 const http = require('http'); 
 const { API_ROUTES } = require('../constants/constants');
-const { logRequestDetails } = require('../middlewares');
+const { logRequestDetails, errorMiddleware } = require('../middlewares');
 
 class Server {
 
@@ -20,11 +20,10 @@ class Server {
             gibli : API_ROUTES?.GIBLI_RESOURCES
         }
 
-        this.conectarDb();
-        
-        this.middlewares();
-        
-        this.routes()
+        this.conectarDb();        
+        this.middlewares();        
+        this.routes();
+        this.errorHandling();
     }
 
     async conectarDb() {
@@ -49,6 +48,10 @@ class Server {
         this.app.use( this.path.gibli, require('../routes/gibli'));
     }
     
+    errorHandling() {        
+        this.app.use(errorMiddleware);
+    }
+
     listen() {
         this.server.listen(this.port, this.hostname,() => {
             console.log('Servidor corriendo en el puerto:', this.port);

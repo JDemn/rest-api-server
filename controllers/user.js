@@ -7,7 +7,6 @@ const {
     ERROR_MESSAGES,
     USER_ROLES 
 } = require("../constants/constants");
-const { logger } = require("../helpers");
 
 /**
  * @method POST
@@ -20,7 +19,7 @@ const { logger } = require("../helpers");
  * @returns {Object} 403 - Error if the role provided is not valid
  * @returns {Object} 500 - Server error message
  */
-const createUser = async (req = request, res = response) => {
+const createUser = async (req = request, res = response , next) => {
     try {
         const { ...data } = req.body;
         const existUsr = await User.findOne({
@@ -57,11 +56,8 @@ const createUser = async (req = request, res = response) => {
             msg: 'Usuario creado exitosamente',
             newUser
         })
-    } catch (error) {
-        //logger.error(`[${req?.method}] ${req?.originalUrl} - Error en el controlador: ${error?.message}`);
-        return res.status(500).json({
-            msg: ERROR_MESSAGES?.SERVER_ERROR
-        })
+    } catch (error) {        
+        next( error );
     }
 }
 
@@ -75,7 +71,7 @@ const createUser = async (req = request, res = response) => {
  * @returns {Object} 200 - Success message, total number of users, and list of users
  * @returns {Object} 500 - Server error message
  */
-const getUsers = async (req = request, res = response) => {
+const getUsers = async ( req = request, res = response , next ) => {
     try {
         const { limite = 20, desde = 0 } = req.query;
         const query = { state: true };
@@ -93,10 +89,7 @@ const getUsers = async (req = request, res = response) => {
             users
         });
     } catch (error) {
-        console.error('Error al obtener usuarios:', error);
-        return res.status(500).json({
-            msg: ERROR_MESSAGES?.SERVER_ERROR
-        })
+        next( error )
     }
 }
 
@@ -110,7 +103,7 @@ const getUsers = async (req = request, res = response) => {
  * @returns {Object} 404 - Error message if user not found
  * @returns {Object} 500 - Server error message
  */
-const getUserById = async (req = request, res = response) => {
+const getUserById = async ( req = request, res = response, next ) => {
     try {
         const userById = req?.params?.id;
 
@@ -126,10 +119,7 @@ const getUserById = async (req = request, res = response) => {
         return res.status(200).json({ user });
 
     } catch (error) {
-        console.error('Error al obtener usuarios:', error);
-        return res.status(500).json({
-            msg: ERROR_MESSAGES?.SERVER_ERROR
-        })
+        next( error )
     }
 }
 
@@ -145,7 +135,7 @@ const getUserById = async (req = request, res = response) => {
  * @returns {Object} 400 - Error message if role is not valid
  * @returns {Object} 500 - Server error message
  */
-const updateUser = async (req = request, res = response) => {
+const updateUser = async ( req = request, res = response , next ) => {
     try {
         const userById = req?.params?.id;
         const { password, ...data } = req?.body;
@@ -174,10 +164,7 @@ const updateUser = async (req = request, res = response) => {
         });
 
     } catch (error) {
-        console.error('Error al obtener usuarios:', error);
-        return res.status(500).json({
-            msg: ERROR_MESSAGES?.SERVER_ERROR
-        })
+        next( error )
     }
 }
 
@@ -191,7 +178,7 @@ const updateUser = async (req = request, res = response) => {
  * @returns {Object} 404 - Error message if user not found
  * @returns {Object} 500 - Server error message
  */
-const deleteUser = async (req = request, res = response) => {
+const deleteUser = async ( req = request, res = response , next ) => {
     try {
         const { id } = req?.params;
         const userToDelete = await User.findById(id);
@@ -212,10 +199,7 @@ const deleteUser = async (req = request, res = response) => {
             .status(200)
             .json({ msg: "Usuario eliminado exitósamente!", deletedUser });            
     } catch (error) {
-        console.error('Error al obtener usuarios:', error);
-        return res.status(500).json({
-            msg: ERROR_MESSAGES?.SERVER_ERROR
-        })
+        next( error )
     }
 }
 
