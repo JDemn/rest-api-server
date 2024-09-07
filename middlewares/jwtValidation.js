@@ -3,7 +3,22 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
 
-
+/**
+ * @middleware jwtValidation
+ * @description Middleware to validate the JWT (JSON Web Token) provided in the request headers.
+ * It checks if the token is present and valid. If the token is missing or invalid, it returns an appropriate error response.
+ * @param {Object} req - HTTP request object, expects a `token` header.
+ * @param {Object} res - HTTP response object.
+ * @param {Function} next - Function to pass control to the next middleware.
+ *
+ * This middleware extracts the token from the request header, verifies it using the secret key, and checks if the user associated
+ * with the token exists and is active. If the token is expired or invalid, it responds with a 401 or 403 status code and a relevant
+ * message. If successful, the user data is attached to the request object for future use in the route.
+ *
+ * Responses:
+ * - 401: No token provided, or token is invalid.
+ * - 403: Token has expired.
+ */
 const jwtValidation = async( req = request ,res = response , next ) => {
     const token = req.header('token');
     if(!token) {
